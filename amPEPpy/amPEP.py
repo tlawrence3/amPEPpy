@@ -52,11 +52,14 @@ def train(args):
     except FileNotFoundError:
         print(f"AMP negative fasta sequence file: {args.negative} not found!")
         sys.exit(1)
-    
+
     training_df = pd.concat([positive_df, negative_df])
     training_df = sklearn.utils.shuffle(training_df, random_state=args.seed)
     X = training_df.drop(columns=['classi'])
     y = training_df.classi
+    clf=RandomForestClassifier(oob_score=True)
+    clf.fit(X,y)
+    print(clf.oob_score_)
     try:
         with open("amPEP.model", "wb") as model_pickle:
             pickle.dumps(clf, model_pickle)
