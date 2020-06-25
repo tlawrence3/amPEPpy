@@ -23,24 +23,25 @@ def main():
                         help="Seed for random processes. This allows reproducibility of random forest training. Default is a random seed number.")
     parser.add_argument("-t", "--num-processes", type=int, default=os.cpu_count(), dest="num_processes",
                         help="Number of processor cores to use for training and classification. Default is the number of system cores reported by the OS")
-    parser.add_argument("-d", "--drop-features", dest="drop_feature", help="")
+    parser.add_argument("-d", "--drop-features", dest="drop_feature", help="Text file containing list of features to drop during random forest training and classification. File must have one feature per line")
     subparsers = parser.add_subparsers(help="sub-command help")
 
-    parser_train = subparsers.add_parser("train", parents=[parser], help='')
-    parser_train.add_argument("-p", "--positive", help="")
-    parser_train.add_argument("-n", "--negative", help="")
-    parser_train.add_argument("--test-trees", action="store_true", dest="tree_test", help="")
-    parser_train.add_argument("--min-trees", type=int, default=23, dest="min_tree", help="")
-    parser_train.add_argument("--max-trees", type=int, default=175, dest="max_tree", help="")
-    parser_train.add_argument("--num-trees", type=int, default=160, dest="num_trees", help="")
-    parser_train.add_argument("--feature-importance", action="store_true", dest="feature_importance", help="")
+    parser_train = subparsers.add_parser("train", parents=[parser], help="Module to train random forest classifier to identify antimicrobial peptides from amino acid sequence data.")
+    requiredNamed_train = parser_train.add_argument_group('required arguments')
+    requiredNamed_train.add_argument("-p", "--positive", help="Fasta file containing amino acid sequences of known antimicrobial peptides.", required=True)
+    requiredNamed_train.add_argument("-n", "--negative", help="Fasta file containing amino acid sequences of non-antimicrobial peptides.", required=True)
+    parser_train.add_argument("--test-trees", action="store_true", dest="tree_test", help="Test accuracy of random forest classifier using different numbers of classifiers evaluted using  out of bag error. --min-trees and --max-trees control the range of classifiers tested. Results are printed to stdout.")
+    parser_train.add_argument("--min-trees", type=int, default=23, dest="min_tree", help="Minimum number of classifiers within random forest classifier when evaluating out of bag error. Default is 23.")
+    parser_train.add_argument("--max-trees", type=int, default=175, dest="max_tree", help="Minimum number of classifiers within random forest classifier when evaluating out of bag error. Default is 175")
+    parser_train.add_argument("--num-trees", type=int, default=160, dest="num_trees", help="Number of classifers used to train random forest classifier. Default is 160 which was shown to produce the lowest out of bag error on training data.")
+    parser_train.add_argument("--feature-importance", action="store_true", dest="feature_importance", help="Test feature importance using the drop feature method. Results are written to a csv file in the current directory.")
     parser_train.set_defaults(func=train)
 
-    parser_predict = subparsers.add_parser("predict", parents=[parser], help="")
+    parser_predict = subparsers.add_parser("predict", parents=[parser], help="Module to identify antimicrobial peptides from amino acid sequence data using the random forest classifier trained using the train module.")
     requiredNamed = parser_predict.add_argument_group('required arguments')
-    parser_predict.add_argument("-m", "--model", default="amPEP.model", dest="model", help="")
-    requiredNamed.add_argument("-i", "--input-sequences", required=True, dest="seq_file", help="")
-    parser_predict.add_argument("-o", "--output-file", dest="out_file", help="")
+    parser_predict.add_argument("-m", "--model", default="amPEP.model", dest="model", help="Random forest model to use for classification. Random forest model is trained and outputted using the train module. Default is amPEP.model in the current directory.")
+    requiredNamed.add_argument("-i", "--input-sequences", required=True, dest="seq_file", help="Fasta file containing amino acid sequences to be classified.")
+    parser_predict.add_argument("-o", "--output-file", dest="out_file", help="Ooutput file to save classification results. Default is stdout.")
     parser_predict.set_defaults(func=predict)
 
     if len(sys.argv) == 1 or sys.argv[1] == "-h" or sys.argv[1] == "--help":
@@ -51,6 +52,11 @@ def main():
         args.func(args)
 
 def train(args):
+    if args.max_tree <= args.min_tree:
+        print(f"--max-trees ({args.max_tree}) less than or equal to --min-trees ({args.min_tree}). --max-trees must be larger than --min-trees",
+              file=sys.stderr)
+        sys.exit(1)
+
     try:
         with open(args.positive, "r") as training_positive:
             positive_df = score(training_positive)
