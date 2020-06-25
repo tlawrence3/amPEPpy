@@ -4,3 +4,7 @@
 ```bash
 git clone https://github.com/tlawrence3/amPEPpy.git
 ```
+2. Change into the `amPEP` directory
+```bash
+cd amPEP
+```
