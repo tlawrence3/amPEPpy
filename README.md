@@ -8,3 +8,32 @@ git clone https://github.com/tlawrence3/amPEPpy.git
 ```bash
 cd amPEP
 ```
+3. We recommend using [anaconda](https://www.anaconda.com/products/individual) and conda enviroments for installing and using amPEPpy. The following commands will create a conda environment with all the required packages and activate it.
+```bash
+conda create -n amPEP python=3.8 pandas numpy biopython scikit-learn
+conda activate amPEP
+```
+4. Now we can install amPEPpy and test the installation with the below commands:
+```bash
+python setup.py install
+ampep -h
+```
+
+## Training random forest classifier
+Now that amPEPpy is installed we need to train the machine-learning algorithm. To do this we need a positive dataset (AMP sequences) and a negative dataset (nonAMP) sequences in fasta format. These are located in the `training_data` folder.
+
+1. To train the machine-learning with the same settings as the manuscript using the below command.
+```bash
+ampep training_data/M_model_train_AMP_sequence.numbered.fasta -n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta --seed 2012
+```
+
+This should create a file named `amPEP.model` which contains the saved random forest classifier
+
+## Classifying sequences using the trained classifier
+Use the below command to classify amino acid sequences in fasta format using the trained random forest. As an example we will use our positive training data.
+
+```bash
+ampep train -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbered.fasta -o results.tsv
+```
+
+This should result in a file named `results.tsv` that contains the classification results for the positive dataset.
