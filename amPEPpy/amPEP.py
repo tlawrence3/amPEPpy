@@ -3,7 +3,6 @@ import os
 import argparse
 import random
 import pickle
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import sklearn.utils
@@ -12,18 +11,19 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import plot_roc_curve
 from sklearn import metrics
 from Bio import SeqIO
-#from amPEPpy._version import __version__
+from amPEPpy._version import __version__
 
 def main():
     parser = argparse.ArgumentParser(prog="ampep",
                                      description="amPEPpy is a python implementation of the amPEP random forest approach for identifying antimicrobial peptides. In addition to the original implementation, we have included a commandline interface, improved performance to scale to genomic data, and improved feature selection procedures",
                                      epilog="Please cite Lawrence et al. (2020) AmPEPpy: Antimicrobial Peptide prediction in python and Bhadra et al. (2018) AmPEP: Sequence-based prediction of antimicrobial peptides using distribution patterns of amino acid properties and random forest.",
                                      add_help=False)
-    #parser.add_argument('-v', '--version', action='version', version="v{}".format(__version__))
+    parser.add_argument('-v', '--version', action='version', version="v{}".format(__version__))
     parser.add_argument("--seed", type=int, default=random.SystemRandom().randint(0, 1000000), dest="seed",
                         help="Seed for random processes. This allows reproducibility of random forest training. Default is a random seed number.")
     parser.add_argument("-t", "--num-processes", type=int, default=os.cpu_count(), dest="num_processes",
                         help="Number of processor cores to use for training and classification. Default is the number of system cores reported by the OS")
+    parser.add_argument("-d", "--drop-features", dest="drop_feature", help="")
     subparsers = parser.add_subparsers(help="sub-command help")
 
     parser_train = subparsers.add_parser("train", parents=[parser], help='')
@@ -32,12 +32,14 @@ def main():
     parser_train.add_argument("--test-trees", action="store_true", dest="tree_test", help="")
     parser_train.add_argument("--min-trees", type=int, default=23, dest="min_tree", help="")
     parser_train.add_argument("--max-trees", type=int, default=175, dest="max_tree", help="")
+    parser_train.add_argument("--num-trees", type=int, default=160, dest="num_trees", help="")
     parser_train.add_argument("--feature-importance", action="store_true", dest="feature_importance", help="")
     parser_train.set_defaults(func=train)
 
     parser_predict = subparsers.add_parser("predict", parents=[parser], help="")
+    requiredNamed = parser_predict.add_argument_group('required arguments')
     parser_predict.add_argument("-m", "--model", default="amPEP.model", dest="model", help="")
-    parser_predict.add_argument("-i", "--input-sequences", required=True, dest="seq_file", help="")
+    requiredNamed.add_argument("-i", "--input-sequences", required=True, dest="seq_file", help="")
     parser_predict.add_argument("-o", "--output-file", dest="out_file", help="")
     parser_predict.set_defaults(func=predict)
 
@@ -54,7 +56,7 @@ def train(args):
             positive_df = score(training_positive)
             positive_df['classi'] = 1
     except FileNotFoundError:
-        print(f"AMP positive fasta sequence file: {args.positive} not found!")
+        print(f"AMP positive fasta sequence file: {args.positive} not found!", file=sys.stderr)
         sys.exit(1)
 
     try:
@@ -62,24 +64,36 @@ def train(args):
             negative_df = score(training_negative)
             negative_df['classi'] = 0
     except FileNotFoundError:
-        print(f"AMP negative fasta sequence file: {args.negative} not found!")
+        print(f"AMP negative fasta sequence file: {args.negative} not found!", file=sys.stderr)
         sys.exit(1)
 
+    feature_drop_list = []
+    if args.drop_feature:
+        try:
+            with open(args.drop_feature, "r") as drop_data:
+                for feature in drop_data:
+                    feature = feature.strip()
+                    feature_drop_list.append(feature)
+        except FileNotFoundError:
+            print(f"Feature drop file: {args.drop_feature} not found!", file=sys.stderr)
+            sys.exit(1)
+
+    feature_drop_list.append("classi")
     training_df = pd.concat([positive_df, negative_df])
     training_df = sklearn.utils.shuffle(training_df, random_state=args.seed)
-    X = training_df.drop(columns=['classi'])
+    X = training_df.drop(columns=feature_drop_list)
     #X = training_df.drop(columns=['classi', 'polarizability.1.0'])
     y = training_df.classi
-    clf = RandomForestClassifier(n_estimators=120, oob_score=True,
+    clf = RandomForestClassifier(n_estimators=args.num_trees, oob_score=True,
                                  random_state=args.seed,
                                  n_jobs=args.num_processes)
     clf.fit(X, y)
     print(clf.oob_score_)
-    pred_train = np.argmax(clf.oob_decision_function_, axis=1).tolist()
-    train_name = training_df.index.tolist()
-    rates_df = pd.DataFrame(list(zip(pred_train, train_name)), columns=["prediction", "name"])
-    rates_df.to_csv("oob_classify_random.csv", index=False)
-    print(metrics.roc_auc_score(y, pred_train))
+    #pred_train = np.argmax(clf.oob_decision_function_, axis=1).tolist()
+    #train_name = training_df.index.tolist()
+    #rates_df = pd.DataFrame(list(zip(pred_train, train_name)), columns=["prediction", "name"])
+    #rates_df.to_csv("oob_classify_random.csv", index=False)
+    #print(metrics.roc_auc_score(y, pred_train))
     if args.tree_test:
         min_estimators = args.min_tree
         max_estimators = args.max_tree
@@ -99,29 +113,41 @@ def train(args):
         with open("amPEP.model", "wb") as model_pickle:
             pickle.dump(clf, model_pickle)
     except IOError:
-        print("Error in writing model to file!")
+        print("Error in writing model to file!", file=sys.stderr)
 
 def predict(args):
     try:
         with open(args.model, "rb") as model_handle:
             clf = pickle.load(model_handle)
     except FileNotFoundError:
-        print(f"Model file: {args.model} not found!")
+        print(f"Model file: {args.model} not found!", file=sys.stderr)
         sys.exit(1)
 
     try:
         with open(args.seq_file, "r") as classify_input:
             classify_df = score(classify_input)
     except FileNotFoundError:
-        print(f"Sequence file: {args.seq_file} not found!")
+        print(f"Sequence file: {args.seq_file} not found!", file=sys.stderr)
         sys.exit(1)
 
     if args.out_file:
         classify_output = open(args.out_file, "w")
 
-    classify_df = classify_df.drop(columns=['polarizability.1.0'])
+    feature_drop_list = []
+    if args.drop_feature:
+        try:
+            with open(args.drop_feature, "r") as drop_data:
+                for feature in drop_data:
+                    feature = feature.strip()
+                    feature_drop_list.append(feature)
+        except FileNotFoundError:
+            print(f"Feature drop file: {args.drop_feature} not found!", file=sys.stderr)
+            sys.exit(1)
+
+    if feature_drop_list:
+        classify_df = classify_df.drop(columns=feature_drop_list)
     id_info = classify_df.index.tolist()
-    
+
     if args.out_file:
         print("probability_nonAMP\tprobability_AMP\tpredicted\tseq_id", file=classify_output)
     else:
@@ -256,7 +282,7 @@ def score(fasta_handle):
     Property_dataframe = pd.DataFrame.from_dict(All_groups)
     Property_dataframe.columns = header
     Property_dataframe.index = Sequence_names
-    return(Property_dataframe)
+    return Property_dataframe
 
 def oob_dropcol_importances(rf, X_train, y_train, seed, n_jobs):
     """
