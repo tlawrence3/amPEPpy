@@ -1,5 +1,9 @@
 # amPEPpy
-## Installation
+
+## Quickstart tutorial
+Here are the steps to get amPEPpy up and running to classify protein sequences as AMP or nonAMP
+
+### Installation
 1. Download amPEPpy and training data using the below bash command or the zip link: 
 ```bash
 git clone https://github.com/tlawrence3/amPEPpy.git
@@ -18,8 +22,6 @@ conda activate amPEP
 python setup.py install
 ampep -h
 ```
-## Quickstart tutorial
-Here are the steps to get amPEPpy up and running to classify protein sequences as AMP or nonAMP
 
 ### Training random forest classifier
 Now that amPEPpy is installed we need to train the machine-learning algorithm. To do this we need a positive dataset (AMP sequences) and a negative dataset (nonAMP) sequences in fasta format. These are located in the `training_data` folder.
@@ -42,10 +44,16 @@ This should result in a file named `results.tsv` that contains the classificatio
 
 ## Documentation
 `-v --version`
+
 `-h --help`
+
 `--seed`
+
 `-t --threads`
+
 ### Train
 `-p --positive`
+
 `-n --negative`
+
 ### Predict
