@@ -18,8 +18,10 @@ conda activate amPEP
 python setup.py install
 ampep -h
 ```
+## Quickstart tutorial
+Here are the steps to get amPEPpy up and running to classify protein sequences as AMP or nonAMP
 
-## Training random forest classifier
+### Training random forest classifier
 Now that amPEPpy is installed we need to train the machine-learning algorithm. To do this we need a positive dataset (AMP sequences) and a negative dataset (nonAMP) sequences in fasta format. These are located in the `training_data` folder.
 
 1. To train the machine-learning with the same settings as the manuscript using the below command.
@@ -29,7 +31,7 @@ ampep train -p training_data/M_model_train_AMP_sequence.numbered.fasta -n traini
 
 This should create a file named `amPEP.model` which contains the saved random forest classifier
 
-## Classifying sequences using the trained classifier
+### Classifying sequences using the trained classifier
 Use the below command to classify amino acid sequences in fasta format using the trained random forest. As an example we will use our positive training data.
 
 ```bash
