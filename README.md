@@ -33,7 +33,7 @@ This should create a file named `amPEP.model` which contains the saved random fo
 Use the below command to classify amino acid sequences in fasta format using the trained random forest. As an example we will use our positive training data.
 
 ```bash
-ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbered.fasta -o results.tsv
+ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbered.fasta -o results.tsv --seed 2012
 ```
 
 This should result in a file named `results.tsv` that contains the classification results for the positive dataset.
