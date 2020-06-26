@@ -39,3 +39,13 @@ ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbere
 ```
 
 This should result in a file named `results.tsv` that contains the classification results for the positive dataset.
+
+## Documentation
+`-v --version`
+`-h --help`
+`--seed`
+`-t --threads`
+### Train
+`-p --positive`
+`-n --negative`
+### Predict
