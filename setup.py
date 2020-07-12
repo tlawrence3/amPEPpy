@@ -19,7 +19,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(name = "amPEPpy",
       setup_requires=['pytest-runner'],
       tests_require=['pytest'],
-      install_requires=['biopython', 'numpy', 'scikit-learn'],
+      install_requires=['biopython', 'numpy', 'scikit-learn', 'pandas'],
       packages = ["amPEPpy"],
       python_requires='~=3.5',
       entry_points = {
