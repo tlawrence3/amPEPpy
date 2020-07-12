@@ -94,7 +94,7 @@ def train(args):
                                  random_state=args.seed,
                                  n_jobs=args.num_processes)
     clf.fit(X, y)
-    print(clf.oob_score_)
+    print(f"Out-of-bag accuracy: {clf.oob_score_}", file=sys.stderr)
     #pred_train = np.argmax(clf.oob_decision_function_, axis=1).tolist()
     #train_name = training_df.index.tolist()
     #rates_df = pd.DataFrame(list(zip(pred_train, train_name)), columns=["prediction", "name"])
