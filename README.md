@@ -1,7 +1,7 @@
 # amPEPpy
 
 ## Quickstart tutorial
-Here are the steps to get amPEPpy up and running to classify protein sequences as AMP or nonAMP
+Here are minimal steps required to get amPEPpy up and running to classify protein sequences as AMP or nonAMP
 
 ### Installation
 1. Download amPEPpy and training data using the below bash command or the zip link: 
@@ -42,7 +42,13 @@ ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbere
 
 This should result in a file named `results.tsv` that contains the classification results for the positive dataset.
 
-## Documentation
+## Optimizing the random forest classifier, calculating feature importance, and feature selection
+### Optimizing the number of decision trees within the random forest classifier
+### Feature importance
+### Excluding features from training and classifiying
+
+## Appendix
+### Global options
 `-v --version`
 
 `-h --help`
