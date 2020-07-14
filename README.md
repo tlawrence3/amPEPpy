@@ -1,7 +1,7 @@
 # amPEPpy
 
 ## Quickstart tutorial
-Here are minimal steps required to get amPEPpy up and running to classify protein sequences as AMP or nonAMP
+Here are minimal steps required to get `amPEPpy` up and running to classify protein sequences as AMP or nonAMP
 
 ### Installation
 1. Download amPEPpy and training data using the below bash command or the zip link: 
@@ -12,7 +12,7 @@ git clone https://github.com/tlawrence3/amPEPpy.git
 ```bash
 cd amPEPpy
 ```
-3. We recommend using [anaconda](https://www.anaconda.com/products/individual) and conda enviroments for installing and using amPEPpy. The following commands will create a conda environment with all the required packages and activate it.
+3. We recommend using [anaconda](https://www.anaconda.com/products/individual) and conda enviroments for installing and using amPEPpy. For MacOSX and Linux users we recommend installing the command line tools for anaconda. Windows users don't have this option and will need to open a powershell from the anaconda GUI to install and use `amPEPpy`. The following commands will create a conda environment with all the required packages and activate it.
 ```bash
 conda create -n amPEP python=3.8 pandas numpy biopython scikit-learn
 conda activate amPEP
