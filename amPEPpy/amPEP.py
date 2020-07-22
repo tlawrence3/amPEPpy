@@ -198,10 +198,8 @@ def score(fasta_handle):
         sequence_name = sequences.id
         Sequence_names.append(sequence_name)
         sequence = str(sequences.seq)
-        if sequence.endswith("*"):
-            sequencelength = len(sequence)-1
-        else:
-            sequencelength=len(sequence)
+        sequence=sequence.replace("*","")
+        sequencelength=len(sequence)
         Sequence_group = []
         for AAproperty in CTD:
             propvalues = ""
