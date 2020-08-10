@@ -1,7 +1,7 @@
 # amPEPpy: An antimicrobial peptide prediction tool
 
 ## About
-Antimicrobial peptides (AMPs) are promising alternative antimicrobial agents. amPEPpy is a Python 3 application that implements the amPEP classifier with improved portability, increased accuracy relative to similar methods, utilities for easily training and optimizing random forest classifiers on novel training data.
+amPEPpy is a Python 3 application that implements a random forest classifier for predicting antimicrobial peptide sequences. amPEPpy has improved portability, increased accuracy relative to similar methods, and includes utilities for easily training and optimizing random forest classifiers on novel training data.
 ## Table of Contents
 
 
@@ -62,8 +62,14 @@ ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbere
 
 This should result in a file named `results.tsv` that contains the classification results for the positive dataset. The `-m` flag is the path to the model file created during training, `-i` flag is the path to a fasta file containing amino acid sequences to classifier, and the `-o` flag. 
 
-## Tutorial
+## Tutorial for optimizing the random forest classifier on novel training data
 ### Optimizing the number of decision trees within the random forest classifier
+First we need to determine the number of decision trees produces the lowest [out-of-bag error](https://towardsdatascience.com/what-is-out-of-bag-oob-score-in-random-forest-a7fa23d710).
+```bash
+ampep train --test-trees -p training_data/M_model_train_AMP_sequence.numbered.fasta \
+-n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta --seed 2012
+```
+
 ### Calculating feature importance
 ### Excluding features from training and classifiying
 
