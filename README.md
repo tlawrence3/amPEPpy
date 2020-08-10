@@ -63,11 +63,14 @@ ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbere
 This should result in a file named `results.tsv` that contains the classification results for the positive dataset. The `-m` flag is the path to the model file created during training, `-i` flag is the path to a fasta file containing amino acid sequences to classifier, and the `-o` flag. 
 
 ## Tutorial for optimizing the random forest classifier on novel training data
+After finishing the quickstart tutorial the steps belows will take you through the steps we used to optimize our random forest classifier. These steps can be used to optimize a new classifier on novel training data. 
+
 ### Optimizing the number of decision trees within the random forest classifier
-First we need to determine the number of decision trees produces the lowest [out-of-bag error](https://towardsdatascience.com/what-is-out-of-bag-oob-score-in-random-forest-a7fa23d710).
+First we need to determine the number of decision trees produces the lowest [out-of-bag error](https://towardsdatascience.com/what-is-out-of-bag-oob-score-in-random-forest-a7fa23d710). The below command will calculate out-of-bag error for random forest classifiers containing between 23 and 175 decision trees saving the results to `oob_error_results.tsv`.
 ```bash
-ampep train --test-trees -p training_data/M_model_train_AMP_sequence.numbered.fasta \
--n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta --seed 2012
+ampep train --test-trees --min-trees 23 --max-trees 175 \ 
+-p training_data/M_model_train_AMP_sequence.numbered.fasta \
+-n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta --seed 2012 > oob_error_results.tsv
 ```
 
 ### Calculating feature importance
