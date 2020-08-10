@@ -1,7 +1,7 @@
 # amPEPpy: An antimicrobial peptide prediction tool
 
 ## About
-Antimicrobial peptides (AMPs) are promising alternative antimicrobial agents. Currently, however, portable, user-friendly, and efficient methods for predicting AMP sequences from genome-scale data are not readily available. Here we present amPEPpy, an open-source, multi-threaded command-line application for predicting AMP sequences using a random forest classifier using the distribution of physicochemical properties along the primary amino acid sequence. amPEPpy is a Python 3 application that implements the amPEP classifier with improved portability, increased accuracy relative to similar methods, utilities for easily training and optimizing random forest classifiers on novel training data.
+Antimicrobial peptides (AMPs) are promising alternative antimicrobial agents. amPEPpy is a Python 3 application that implements the amPEP classifier with improved portability, increased accuracy relative to similar methods, utilities for easily training and optimizing random forest classifiers on novel training data.
 ## Table of Contents
 
 
@@ -60,7 +60,7 @@ Use the below command to classify amino acid sequences in fasta format using the
 ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbered.fasta -o results.tsv --seed 2012
 ```
 
-This should result in a file named `results.tsv` that contains the classification results for the positive dataset.
+This should result in a file named `results.tsv` that contains the classification results for the positive dataset. The `-m` flag is the path to the model file created during training, `-i` flag is the path to a fasta file containing amino acid sequences to classifier, and the `-o` flag. 
 
 ## Tutorial
 ### Optimizing the number of decision trees within the random forest classifier
@@ -71,10 +71,13 @@ This should result in a file named `results.tsv` that contains the classificatio
 ## Appendix
 ### Global options
 `-v --version`
+Show program's version number and exit
 
 `-h --help`
+Print help message and exit
 
 `--seed`
+Seed for random processes. This allows reproducibility of random forest training. Default is a random seed number.
 
 `-t --num-processes`
 
