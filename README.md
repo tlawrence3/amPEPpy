@@ -80,27 +80,39 @@ Print help message and exit
 Seed for random processes. This allows reproducibility of random forest training. Default is a random seed number.
 
 `-t --num-processes`
+Number of processor cores to use for training and classification. Default is the number of system cores reported by the OS
 
 `-d --drop-features`
+Text file containing list of features to drop during random forest training and classification. File must have one feature per line
 
 ### Train
 `-p --positive`
+Fasta file containing amino acid sequences of known antimicrobial peptides.
 
 `-n --negative`
+Fasta file containing amino acid sequences of non-antimicrobial peptides.
 
 `--test-trees`
+Test accuracy of random forest classifier using different numbers of classifiers evaluted using out of bag error. `--min-trees` and `--max-trees` control the range of classifiers tested. Results are printed to stdout.
 
 `--min-trees`
+Minimum number of classifiers within random forest classifier when evaluating out of bag error. Default is 23.
 
 `--max-trees`
+Minimum number of classifiers within random forest classifier when evaluating out of bag error. Default is 175.
 
 `--num-trees`
+Number of classifers used to train random forest classifier. Default is 160 which was shown to produce the lowest out of bag error on training data.
 
 `--feature-importance`
+Test feature importance using the drop feature method. Results are written to a csv file in the current directory.
 
 ### Predict
 `-i --input-sequences`
+Fasta file containing amino acid sequences to be classified.
 
 `-o --output-file`
+Output file to save classification results. Default is stdout.
 
 `-m --model`
+Random forest model to use for classification. Random forest model is trained and outputted using the train module. Default is amPEP.model in the current directory.
