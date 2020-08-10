@@ -70,7 +70,19 @@ First we need to determine the number of decision trees produces the lowest [out
 ```bash
 ampep train --test-trees --min-trees 23 --max-trees 175 \ 
 -p training_data/M_model_train_AMP_sequence.numbered.fasta \
--n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta --seed 2012 > oob_error_results.tsv
+-n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta \
+--seed 2012 > oob_error_results.tsv
+```
+
+After running this command you should have file in the current directory named `oob_error_results.tsv`. This file contains tab-separated values for each random forest classifier's out-of-bag error. We recommend selecting the smallest number of estimators that results in the lowest out-of-bag error. Below is an example of the `oob_error_results.tsv` file:     
+
+```
+n_estimators    oob_error
+23      0.19033047735618114
+24      0.1900244798041616
+25      0.19033047735618114
+26      0.18925948592411257
+27      0.18665850673194617
 ```
 
 ### Calculating feature importance
