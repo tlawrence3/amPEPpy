@@ -86,6 +86,25 @@ n_estimators    oob_error
 ```
 
 ### Calculating feature importance
+We calculate a feature's importance by change in out-of-bag accuracy between a random forest classifier trained with all features and one trained with the feature removed. A positive value indicates that the classifier performs better when the feature is included and a negative value indicates the classifer performs better when the feature is removed. The below command will calculate the importance of each feature and write the results to `feature.importances.dropcol.oob.csv`.  
+```bash
+ampep train --feature-importance --num-trees \
+-p training_data/M_model_train_AMP_sequence.numbered.fasta \
+-n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta \
+--seed 2012
+```
+
+Below is an example of the results contained in `feature.importances.dropcol.oob.csv` after running the above command:
+
+```
+Feature,Importance
+normalized.van.der.waals.2.25,0.008720930232558155
+polarity.2.50,0.008108935128518957
+hydrophobicity.1.100,0.00795593635250913
+polarizability.1.25,0.0
+polarizability.1.0,-0.0009179926560587415
+```
+
 ### Excluding features from training and classifiying
 
 ## Citing
