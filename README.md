@@ -1,8 +1,23 @@
-## amPEPpy: A portable and accurate antimicrobial peptide prediction tool
+# amPEPpy: An antimicrobial peptide prediction tool
 
 ## About
 
 ## Table of Contents
+
+
+ * [Install](#install)
+ * [Quickstart tutorial](#quickstart-tutorial)
+     * [Training random forest classifier](#training-random-forest-classifier)
+     * [Classifying sequences using the trained classifier](#classifying-sequences-using-the-trained-classifier)
+ * [Optimizing the random forest classifier, calculating feature importance, and feature selection](#optimizing-the-random-forest-classifier-calculating-feature-importance-and-feature-selection)
+     * [Optimizing the number of decision trees within the random forest classifier](#optimizing-the-number-of-decision-trees-within-the-random-forest-classifier)
+     * [Feature importance](#feature-importance)
+     * [Excluding features from training and classifiying](#excluding-features-from-training-and-classifiying)
+ * [Appendix](#appendix)
+     * [Global options](#global-options)
+     * [Train](#train)
+     * [Predict](#predict)
+
 
 ## Install
 1. Download amPEPpy and training data using the below bash command or the zip link: 
