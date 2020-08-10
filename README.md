@@ -13,6 +13,7 @@ Antimicrobial peptides (AMPs) are promising alternative antimicrobial agents. Cu
      * [Optimizing the number of decision trees within the random forest classifier](#optimizing-the-number-of-decision-trees-within-the-random-forest-classifier)
      * [Feature importance](#feature-importance)
      * [Excluding features from training and classifiying](#excluding-features-from-training-and-classifiying)
+ * [Citing](#citing)
  * [Appendix](#appendix)
      * [Global options](#global-options)
      * [Train](#train)
