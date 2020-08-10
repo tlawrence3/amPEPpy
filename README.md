@@ -46,7 +46,7 @@ Here are minimal steps required to get `amPEPpy` up and running to classify prot
 ### Training random forest classifier
 Now that amPEPpy is installed we need to train the machine-learning algorithm. To do this we need a positive dataset (AMP sequences) and a negative dataset (nonAMP) sequences in fasta format. These are located in the `training_data` folder.
 
-1. To train the random forest classifier with the same settings as the manuscript use the below command.
+To train the random forest classifier with the same settings as the manuscript use the below command.
 ```bash
 ampep train -p training_data/M_model_train_AMP_sequence.numbered.fasta -n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta --seed 2012
 ```
