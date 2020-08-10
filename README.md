@@ -51,7 +51,7 @@ Now that amPEPpy is installed we need to train the machine-learning algorithm. T
 ampep train -p training_data/M_model_train_AMP_sequence.numbered.fasta -n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta --seed 2012
 ```
 
-This should create a file named `amPEP.model` which contains the saved random forest classifier
+This should create a file named `amPEP.model` which contains the saved random forest classifier. The `-p` flag is the path to your fasta file containing AMP sequences, `-n` flag is the path to a fasta file containing nonAMP sequences, and `--seed` may be provided for reproducibility and was set to `2012` for all of the analyses for the manuscript.
 
 ### Classifying sequences using the trained classifier
 Use the below command to classify amino acid sequences in fasta format using the trained random forest. As an example we will use our positive training data.
@@ -62,9 +62,9 @@ ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbere
 
 This should result in a file named `results.tsv` that contains the classification results for the positive dataset.
 
-## Optimizing the random forest classifier, calculating feature importance, and feature selection
+## Tutorial
 ### Optimizing the number of decision trees within the random forest classifier
-### Feature importance
+### Calculating feature importance
 ### Excluding features from training and classifiying
 
 ## Citing
