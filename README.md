@@ -1,8 +1,24 @@
-## amPEPpy: A portable and accurate antimicrobial peptide prediction tool
+# amPEPpy: An antimicrobial peptide prediction tool
 
 ## About
-
+Antimicrobial peptides (AMPs) are promising alternative antimicrobial agents. Currently, however, portable, user-friendly, and efficient methods for predicting AMP sequences from genome-scale data are not readily available. Here we present amPEPpy, an open-source, multi-threaded command-line application for predicting AMP sequences using a random forest classifier using the distribution of physicochemical properties along the primary amino acid sequence. amPEPpy is a Python 3 application that implements the amPEP classifier with improved portability, increased accuracy relative to similar methods, utilities for easily training and optimizing random forest classifiers on novel training data.
 ## Table of Contents
+
+
+ * [Install](#install)
+ * [Quickstart tutorial](#quickstart-tutorial)
+     * [Training random forest classifier](#training-random-forest-classifier)
+     * [Classifying sequences using the trained classifier](#classifying-sequences-using-the-trained-classifier)
+ * [Optimizing the random forest classifier, calculating feature importance, and feature selection](#optimizing-the-random-forest-classifier-calculating-feature-importance-and-feature-selection)
+     * [Optimizing the number of decision trees within the random forest classifier](#optimizing-the-number-of-decision-trees-within-the-random-forest-classifier)
+     * [Feature importance](#feature-importance)
+     * [Excluding features from training and classifiying](#excluding-features-from-training-and-classifiying)
+ * [Citing](#citing)
+ * [Appendix](#appendix)
+     * [Global options](#global-options)
+     * [Train](#train)
+     * [Predict](#predict)
+
 
 ## Install
 1. Download amPEPpy and training data using the below bash command or the zip link: 
@@ -30,12 +46,12 @@ Here are minimal steps required to get `amPEPpy` up and running to classify prot
 ### Training random forest classifier
 Now that amPEPpy is installed we need to train the machine-learning algorithm. To do this we need a positive dataset (AMP sequences) and a negative dataset (nonAMP) sequences in fasta format. These are located in the `training_data` folder.
 
-1. To train the machine-learning with the same settings as the manuscript using the below command.
+To train the random forest classifier with the same settings as the manuscript use the below command.
 ```bash
 ampep train -p training_data/M_model_train_AMP_sequence.numbered.fasta -n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta --seed 2012
 ```
 
-This should create a file named `amPEP.model` which contains the saved random forest classifier
+This should create a file named `amPEP.model` which contains the saved random forest classifier. The `-p` flag is the path to your fasta file containing AMP sequences, `-n` flag is the path to a fasta file containing nonAMP sequences, and `--seed` may be provided for reproducibility and was set to `2012` for all of the analyses for the manuscript.
 
 ### Classifying sequences using the trained classifier
 Use the below command to classify amino acid sequences in fasta format using the trained random forest. As an example we will use our positive training data.
@@ -46,11 +62,12 @@ ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbere
 
 This should result in a file named `results.tsv` that contains the classification results for the positive dataset.
 
-## Optimizing the random forest classifier, calculating feature importance, and feature selection
+## Tutorial
 ### Optimizing the number of decision trees within the random forest classifier
-### Feature importance
+### Calculating feature importance
 ### Excluding features from training and classifiying
 
+## Citing
 ## Appendix
 ### Global options
 `-v --version`
