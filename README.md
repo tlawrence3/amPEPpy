@@ -1,4 +1,4 @@
-# amPEPpy: A portable and accurate antimicrobial peptide prediction tool
+## amPEPpy: A portable and accurate antimicrobial peptide prediction tool
 
 ## About
 
