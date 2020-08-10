@@ -1,7 +1,7 @@
 # amPEPpy: An antimicrobial peptide prediction tool
 
 ## About
-
+Antimicrobial peptides (AMPs) are promising alternative antimicrobial agents. Currently, however, portable, user-friendly, and efficient methods for predicting AMP sequences from genome-scale data are not readily available. Here we present amPEPpy, an open-source, multi-threaded command-line application for predicting AMP sequences using a random forest classifier using the distribution of physicochemical properties along the primary amino acid sequence. amPEPpy is a Python 3 application that implements the amPEP classifier with improved portability, increased accuracy relative to similar methods, utilities for easily training and optimizing random forest classifiers on novel training data.
 ## Table of Contents
 
 
@@ -66,6 +66,7 @@ This should result in a file named `results.tsv` that contains the classificatio
 ### Feature importance
 ### Excluding features from training and classifiying
 
+## Citing
 ## Appendix
 ### Global options
 `-v --version`
