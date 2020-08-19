@@ -105,7 +105,22 @@ polarizability.1.25,0.0
 polarizability.1.0,-0.0009179926560587415
 ```
 
-### Excluding features from training and classifiying
+The result file contains two columns `Feature` which is the name of the feature from the Distribution descriptor set from the [Global Protein Sequence Descriptors](https://dx.doi.org/10.1073%2Fpnas.92.19.8700) and the second column is the difference in the out-of-bag accuracy between a random forest classifier trained with all features and one trained with this feature removed. 
+
+### Excluding features from training and classifying
+Based on the feature importance analysis above it appears that removing the `polarizability.1.0` feature actually improved the performance of the random forest classifier. If we want to remove this featue from training and classifying we can do this using the `--drop-features` option. This option is expecting a text file with one feature per line that will be removed during training and classification. Below is an example of the file required by the `--drop-features` option that will remove two features:
+
+```
+polarizability.1.25
+polarizability.1.0
+```
+
+
+```bash
+ampep train -p training_data/M_model_train_AMP_sequence.numbered.fasta \
+-n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta \ 
+--drop-features features.remove.txt --seed 2012
+```
 
 ## Citing
 ## Appendix
