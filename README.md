@@ -1,7 +1,7 @@
 # amPEPpy: An antimicrobial peptide prediction tool
 
 ## About
-amPEPpy is a Python 3 application that implements a random forest classifier for predicting antimicrobial peptide sequences. amPEPpy has improved portability, increased accuracy relative to similar methods, and includes utilities for easily training and optimizing random forest classifiers on novel training data.
+amPEPpy is a Python 3 application that implements a random forest classifier for predicting antimicrobial peptide sequences using the Distribution descriptor set from the [Global Protein Sequence Descriptors](https://dx.doi.org/10.1073%2Fpnas.92.19.8700). amPEPpy has improved portability, increased accuracy relative to similar methods, and includes utilities for easily training and optimizing random forest classifiers on novel training data.
 ## Table of Contents
 
 
