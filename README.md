@@ -115,11 +115,17 @@ polarizability.1.25
 polarizability.1.0
 ```
 
+If the above example file was named `features.remove.txt` here is the command that will train the random forest classifier removing these features: 
 
 ```bash
 ampep train -p training_data/M_model_train_AMP_sequence.numbered.fasta \
 -n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta \ 
 --drop-features features.remove.txt --seed 2012
+```
+
+Once the model is trained with these features removed and we want to use it to classify sequences we need provide the `predict` command with the `-drop-features` option. Below is an example command for predicting AMP sequences with the above features removed.
+```bash
+ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbered.fasta --drop-features features.remove.txt -o results.tsv --seed 2012
 ```
 
 ## Citing
