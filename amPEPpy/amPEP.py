@@ -8,7 +8,7 @@ import pandas as pd
 import sklearn.utils
 from sklearn.base import clone
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import plot_roc_curve
+#from sklearn.metrics import plot_roc_curve
 from sklearn import metrics
 from Bio import SeqIO
 from amPEPpy._version import __version__
