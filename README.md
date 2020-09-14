@@ -34,6 +34,11 @@ cd amPEPpy
 conda create -n amPEP python=3.8 pandas numpy biopython scikit-learn
 conda activate amPEP
 ```
+If anaconda is unavailable for your system or you don't want to install it you can still install amPEPpy using pip with the command below:
+```bash
+pip install .
+```
+
 4. Now we can install amPEPpy and test the installation with the below commands:
 ```bash
 python setup.py install
