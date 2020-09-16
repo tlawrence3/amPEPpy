@@ -56,7 +56,7 @@ To train the random forest classifier with the same settings as the manuscript u
 ampep train -p training_data/M_model_train_AMP_sequence.numbered.fasta -n training_data/M_model_train_nonAMP_sequence.numbered.proplen.subsample.fasta --seed 2012
 ```
 
-This should create a file named `amPEP.model` which contains the saved random forest classifier. The `-p` flag is the path to your fasta file containing AMP sequences, `-n` flag is the path to a fasta file containing nonAMP sequences, and `--seed` may be provided for reproducibility and was set to `2012` for all of the analyses for the manuscript.
+This should create a file named `amPEP.model` which contains the saved random forest classifier. The `-p` flag is the path to your fasta file containing AMP sequences, `-n` flag is the path to a fasta file containing nonAMP sequences, and `--seed` may be provided for reproducibility and was set to `2012` for all of the analyses for the manuscript. The model described in the manuscript is available in the `pretrained_models` directory.
 
 ### Classifying sequences using the trained classifier
 Use the below command to classify amino acid sequences in fasta format using the trained random forest. As an example we will use our positive training data.
