@@ -95,22 +95,25 @@ def train(args):
                                  n_jobs=args.num_processes)
     clf.fit(X, y)
     print(f"Out-of-bag accuracy: {clf.oob_score_}", file=sys.stderr)
-    #pred_train = np.argmax(clf.oob_decision_function_, axis=1).tolist()
+    pred_train = np.argmax(clf.oob_decision_function_, axis=1).tolist()
+    print(f"Out-of-bag balanced accuracy: {metrics.balanced_accuracy_score(y, pred_train)}",
+          file=sys.stderr)
     #train_name = training_df.index.tolist()
     #rates_df = pd.DataFrame(list(zip(pred_train, train_name)), columns=["prediction", "name"])
     #rates_df.to_csv("oob_classify_random.csv", index=False)
-    #print(metrics.roc_auc_score(y, pred_train))
     if args.tree_test:
         min_estimators = args.min_tree
         max_estimators = args.max_tree
-        print("n_estimators\toob_error")
+        print("n_estimators\toob_error\toob_balanced_error")
         for i in range(min_estimators, max_estimators + 1):
             clf_ = RandomForestClassifier(n_estimators=i, oob_score=True,
                                           random_state=args.seed,
                                           n_jobs=args.num_processes)
             clf_.fit(X, y)
             oob_error = 1 - clf_.oob_score_
-            print(f"{i}\t{oob_error}")
+            pred_train = np.argmax(clf_.oob_decision_function_, axis=1).tolist()
+            oob_balanced_accuracy = metrics.balanced_accuracy_score(y, pred_train)
+            print(f"{i}\t{oob_error}\t{1-oob_balanced_accuracy}")
 
     if args.feature_importance:
         oob_dropcol_importances(clf, X, y, args.seed, args.num_processes)
