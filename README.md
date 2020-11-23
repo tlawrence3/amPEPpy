@@ -128,7 +128,7 @@ ampep train -p training_data/M_model_train_AMP_sequence.numbered.fasta \
 --drop-features features.remove.txt --seed 2012
 ```
 
-Once the model is trained with these features removed and we want to use it to classify sequences we need provide the `predict` command with the `-drop-features` option. Below is an example command for predicting AMP sequences with the above features removed.
+Once the model is trained with these features removed and we want to use it to classify sequences we need to provide the `predict` command with the `-drop-features` option. Below is an example command for predicting AMP sequences with the above features removed.
 ```bash
 ampep predict -m amPEP.model -i training_data/M_model_train_AMP_sequence.numbered.fasta --drop-features features.remove.txt -o results.tsv --seed 2012
 ```
