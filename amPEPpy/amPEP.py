@@ -293,7 +293,7 @@ def score(fasta_handle):
     Property_dataframe = pd.DataFrame.from_dict(All_groups)
     Property_dataframe.columns = header
     Property_dataframe.index = Sequence_names
-    Property_dataframe.to_csv(f'{date.today().strftime("%Y%m%d")}_scored_features.csv', index=True)
+    Property_dataframe.to_csv(f'{date.today().strftime("%Y%m%d")}_scored_features.csv', index=True, index_label="sequence_name")
     return Property_dataframe
 
 def oob_dropcol_importances(rf, X_train, y_train, seed, n_jobs):
