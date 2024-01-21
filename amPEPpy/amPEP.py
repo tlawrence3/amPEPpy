@@ -165,7 +165,7 @@ def predict(args):
     preds = clf.predict_proba(classify_df)
     for i, pred in enumerate(preds):
         pred_list = pred.tolist()
-        if clf.predict(classify_df.loc[id_info[i], :].to_numpy().reshape(1, -1))[0] == 1:
+        if clf.predict(classify_df.loc[[id_info[i]]])[0] == 1:
             predicted = "AMP"
         else:
             predicted = "nonAMP"
